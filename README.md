@@ -1,2 +1,2 @@
-# Snake_Game-
+# Snake_Game
 Snake game in Pygame
