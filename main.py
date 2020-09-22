@@ -32,6 +32,7 @@ window_surface = pygame.display.set_mode(screen_size)
 background = pygame.Surface(screen_size)
 
 
+
 def score_disp(score):
     text = score_font.render('Score: ' + str(score), True, white)
     window_surface.blit(text, [0, 0])
@@ -47,7 +48,27 @@ def txt_obj(msg,color,use):
 def msg_to_display(msg,color,offset_y=0,use='game'):
     txt_surf , txt_rect = txt_obj(msg,color,use)
     txt_rect.center = (round(screen_widht / 2)), round((screen_hight / 2) + offset_y)
-    background.blit(txt_surf, txt_rect)
+    window_surface.blit(txt_surf, txt_rect)
+
+
+def pause():
+    paused = True
+
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    paused = False
+                elif event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+
+        msg_to_display('Paused', white, -100, 'game')
+        pygame.display.update()
+        clock.tick(60)
 
 
 def game_loop():
@@ -97,6 +118,9 @@ def game_loop():
                 elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     dir_y = 1
                     dir_x = 0
+                
+                elif event.key == pygame.K_p:
+                    pause()
 
                 #Quit
                 elif event.key == pygame.K_ESCAPE:
